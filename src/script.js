@@ -12,6 +12,7 @@ parameters.count = 100000;
 parameters.size = 0.01;
 parameters.radius = 5;
 parameters.branches = 3;
+parameters.spin = 1;
 
 let galaxyGeometry = null;
 let galaxyMaterial = null;
@@ -32,13 +33,14 @@ const galaxyGenerator = () => {
   for (let i = 0; i < parameters.count; i++) {
     const i3 = i * 3;
     const radius = Math.random() * parameters.radius;
+    const spinAngle = radius * parameters.spin;
     const branchAngle =
       ((i % parameters.branches) / parameters.branches) * Math.PI * 2;
     // Explained below ↓
 
-    positions[i3] = Math.cos(branchAngle) * radius; // X
+    positions[i3] = Math.cos(branchAngle + spinAngle) * radius; // X
     positions[i3 + 1] = 0; // Y
-    positions[i3 + 2] = Math.sin(branchAngle) * radius; // Z
+    positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius; // Z
   }
 
   galaxyGeometry.setAttribute(
@@ -89,6 +91,13 @@ gui
   .max(15)
   .step(1)
   .name('Branches')
+  .onFinishChange(galaxyGenerator);
+gui
+  .add(parameters, 'spin')
+  .min(-5)
+  .max(5)
+  .step(0.001)
+  .name('Spin')
   .onFinishChange(galaxyGenerator);
 
 //====================== Camera =======================
