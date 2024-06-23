@@ -8,18 +8,21 @@ const scene = new THREE.Scene();
 
 //====================== Texture ======================
 const textureLoader = new THREE.TextureLoader();
+
 textureLoader.load('./textures/2k_stars.jpg', (texture) => {
   texture.mapping = THREE.EquirectangularReflectionMapping;
 
-   // Improve texture filtering
-   texture.minFilter = THREE.LinearFilter;
-   texture.magFilter = THREE.LinearFilter;
-   texture.encoding = THREE.sRGBEncoding;
-  
+  // Improve texture filtering
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.encoding = THREE.sRGBEncoding;
+
   // Set the scene's environment and background
   scene.environment = texture;
   scene.background = texture;
 });
+
+const galaxyTexture = textureLoader.load('./textures/galaxy.png');
 
 //====================== Galaxy =======================
 let galaxyGeometry = null;
@@ -90,6 +93,8 @@ const galaxyGenerator = () => {
 
   //====================== Material
   galaxyMaterial = new THREE.PointsMaterial({
+    alphaMap: galaxyTexture,
+    transparent: true,
     size: parameters.size,
     sizeAttenuation: true, // should be scaled by their distance from the camera
     depthWrite: false,
