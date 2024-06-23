@@ -1,20 +1,24 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
 import * as THREE from 'three';
+import { vertexColor } from 'three/examples/jsm/nodes/Nodes.js';
 
 const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
 const gui = new GUI().title('Galaxy Generator');
 
 //====================== Galaxy =======================
-const parameters = {};
-parameters.count = 100000;
-parameters.size = 0.01;
-parameters.radius = 5;
-parameters.branches = 3;
-parameters.spin = 1;
-parameters.randomness = 0.2;
-parameters.randomnessPower = 3;
+const parameters = {
+  count: 100000,
+  size: 0.01,
+  radius: 5,
+  branches: 3,
+  spin: 1,
+  randomness: 0.2,
+  randomnessPower: 3,
+  insideColor: '#ff6030',
+  outsideColor: '#1b3984',
+};
 
 let galaxyGeometry = null;
 let galaxyMaterial = null;
@@ -31,6 +35,10 @@ const galaxyGenerator = () => {
   //====================== Geometry
   galaxyGeometry = new THREE.BufferGeometry();
   const positions = new Float32Array(parameters.count * 3);
+  const colors = new Float32Array(parameters.count * 3);
+
+  const colorInside = new THREE.Color(parameters.insideColor);
+  const colorOutside = new THREE.Color(parameters.outsideColor);
 
   for (let i = 0; i < parameters.count; i++) {
     const i3 = i * 3;
@@ -51,7 +59,7 @@ const galaxyGenerator = () => {
       (Math.random() < 0.5 ? 1 : -1) *
       parameters.randomness *
       radius;
-      
+
     const randomZ =
       Math.pow(Math.random(), parameters.randomnessPower) *
       (Math.random() < 0.5 ? 1 : -1) *
@@ -61,12 +69,22 @@ const galaxyGenerator = () => {
     positions[i3] = Math.cos(branchAngle + spinAngle) * radius + randomX; // X
     positions[i3 + 1] = randomY; // Y
     positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ; // Z
+
+    // To avoid manipulating the base color
+    const mixedColor = colorInside.clone();
+    mixedColor.lerp(colorOutside, radius / parameters.radius);
+
+    colors[i3] =  mixedColor.r;
+    colors[i3 + 1] = mixedColor.g;
+    colors[i3 + 2] = mixedColor.b;
   }
 
+  //=== Buffer Attribute
   galaxyGeometry.setAttribute(
     'position',
     new THREE.BufferAttribute(positions, 3)
   );
+  galaxyGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
   //====================== Material
   galaxyMaterial = new THREE.PointsMaterial({
@@ -74,6 +92,7 @@ const galaxyGenerator = () => {
     sizeAttenuation: true, // should be scaled by their distance from the camera
     depthWrite: false,
     blending: THREE.AdditiveBlending,
+    vertexColors: true,
   });
 
   //====================== Points
@@ -132,6 +151,14 @@ gui
   .max(10)
   .step(0.001)
   .name('Randomness Power')
+  .onFinishChange(galaxyGenerator);
+gui
+  .addColor(parameters, 'insideColor')
+  .name('Inside Color')
+  .onFinishChange(galaxyGenerator);
+gui
+  .addColor(parameters, 'outsideColor')
+  .name('Outside Color')
   .onFinishChange(galaxyGenerator);
 
 //====================== Camera =======================
