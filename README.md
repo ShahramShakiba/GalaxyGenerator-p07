@@ -36,13 +36,13 @@ _I'll harness the power of lil-gui to give users the ultimate control. They’ll
 
 > _Which Concepts Have I Covered_: <br/>
 
-01. _<h4>Create 1000 Particles using BufferGeometry</h4>_
-02. _<h4>...</h4>_
-03. _<h4>...</h4>_
-04. _<h4>...</h4>_
-05. _<h4>...</h4>_
-06. _<h4>...</h4>_
-07. _<h4>...</h4>_
+01. _<h4>Instantiate 1000 particles through the utilization of ` BufferGeometry `.</h4>_
+02. _<h4>Integrate a Debug Graphical User Interface ` (GUI) ` to improve the user interface, enabling users to customize and generate their preferred Galaxy configurations.</h4>_
+03. _<h4>To optimize system performance and prevent memory leaks, frame rate issues, and performance degradation, employ the ` dispose method ` to clear memory effectively.</h4>_
+04. _<h4>Manipulate galactic structures by defining "radius parameters" and generating "radial branches" within a circular framework.</h4>_
+05. _<h4>To generate a "Spin shape" for the Galaxy, implement a spin-angle mechanism to induce a rotational effect on the Galaxy, resulting in the formation of a distinct Spin shape.</h4>_
+06. _<h4>Utilize stochastic processes to model the dispersion of particles within the Galaxy</h4>_
+07. _<h4>Enhancing the visual representation of Galaxy through the application of colorization techniques to depict galaxies in a more vivid and informative manner.</h4>_
 
  
 <br/><br/>
