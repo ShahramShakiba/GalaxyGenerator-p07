@@ -48,14 +48,14 @@ _I'll harness the power of lil-gui to give users the ultimate control. They’ll
 <br/><br/>
 
 <!-------- try it live -------->
-#### _Give it a go in real-time and give me a Star_ &nbsp; <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="25"  /> <a href="" target="_blank"> &nbsp; _Galaxy Generator_ </a> 
+#### _Give it a go in real-time and give me a Star_ &nbsp; <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="25"  /> <a href="https://galaxy-generator-shahram.netlify.app/" target="_blank"> &nbsp; _Galaxy Generator_ </a> 
 
 <br/>
 
 <!--------- Video --------->
-<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Objects/Clapper%20Board.webp" alt="Clapper Board" width="35" />
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Objects/Clapper%20Board.webp" alt="Clapper Board" width="35" /> &nbsp; You can manipulate the Galaxy as you wish!
 
-
+https://github.com/ShahramShakiba/GalaxyGenerator-Threejs-p07/assets/110089830/9f7e6935-56d3-4123-b015-9d6ea7e0ddd5
 
   <br/> 
 
