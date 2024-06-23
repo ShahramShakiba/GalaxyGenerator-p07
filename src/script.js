@@ -11,7 +11,7 @@ const textureLoader = new THREE.TextureLoader();
 textureLoader.load('./textures/2k_stars.jpg', (texture) => {
   texture.mapping = THREE.EquirectangularReflectionMapping;
 
-  // Improves performance by minification filtering 
+  // Improves performance by minification filtering
   texture.minFilter = THREE.LinearMipmapLinearFilter;
   texture.magFilter = THREE.LinearFilter;
   texture.encoding = THREE.sRGBEncoding;
@@ -135,7 +135,7 @@ renderer.setSize(width, height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 //==================== Resize Listener ================
-const onWindowResize = () => {
+window.addEventListener('resize', () => {
   const width = window.innerWidth;
   const height = window.innerHeight;
 
@@ -144,11 +144,6 @@ const onWindowResize = () => {
 
   renderer.setSize(width, height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-};
-
-window.addEventListener('resize', () => {
-  clearTimeout(window.resizedFinished);
-  window.resizedFinished = setTimeout(onWindowResize, 250); // Explained ↓
 });
 
 //==================== Resize Listener ================
