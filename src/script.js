@@ -147,6 +147,25 @@ window.addEventListener('resize', () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
+//==================== Resize Listener ================
+const audioListener = new THREE.AudioListener();
+camera.add(audioListener);
+
+const sound = new THREE.Audio(audioListener);
+
+const audioLoader = new THREE.AudioLoader();
+audioLoader.load('./music/Hope to see you again.mp3', (buffer) => {
+  sound.setBuffer(buffer);
+  sound.setLoop(true);
+  sound.setVolume(0.5);
+
+  document.addEventListener('click', () => {
+    if (!sound.isPlaying) {
+      sound.play();
+    }
+  });
+});
+
 //==================== Animate ========================
 const clock = new THREE.Clock();
 
