@@ -13,6 +13,8 @@ parameters.size = 0.01;
 parameters.radius = 5;
 parameters.branches = 3;
 parameters.spin = 1;
+parameters.randomness = 0.2;
+parameters.randomnessPower = 3;
 
 let galaxyGeometry = null;
 let galaxyMaterial = null;
@@ -32,15 +34,33 @@ const galaxyGenerator = () => {
 
   for (let i = 0; i < parameters.count; i++) {
     const i3 = i * 3;
-    const radius = Math.random() * parameters.radius;
-    const spinAngle = radius * parameters.spin;
+    const radius = Math.random() * parameters.radius; // Explained ↓
+    const spinAngle = radius * parameters.spin; // Explained ↓
     const branchAngle =
       ((i % parameters.branches) / parameters.branches) * Math.PI * 2;
-    // Explained below ↓
+    // Explained ↓
 
-    positions[i3] = Math.cos(branchAngle + spinAngle) * radius; // X
-    positions[i3 + 1] = 0; // Y
-    positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius; // Z
+    const randomX =
+      Math.pow(Math.random(), parameters.randomnessPower) *
+      (Math.random() < 0.5 ? 1 : -1) *
+      parameters.randomness *
+      radius;
+
+    const randomY =
+      Math.pow(Math.random(), parameters.randomnessPower) *
+      (Math.random() < 0.5 ? 1 : -1) *
+      parameters.randomness *
+      radius;
+      
+    const randomZ =
+      Math.pow(Math.random(), parameters.randomnessPower) *
+      (Math.random() < 0.5 ? 1 : -1) *
+      parameters.randomness *
+      radius;
+
+    positions[i3] = Math.cos(branchAngle + spinAngle) * radius + randomX; // X
+    positions[i3 + 1] = randomY; // Y
+    positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ; // Z
   }
 
   galaxyGeometry.setAttribute(
@@ -99,6 +119,20 @@ gui
   .step(0.001)
   .name('Spin')
   .onFinishChange(galaxyGenerator);
+gui
+  .add(parameters, 'randomness')
+  .min(0)
+  .max(2)
+  .step(0.001)
+  .name('Randomness')
+  .onFinishChange(galaxyGenerator);
+gui
+  .add(parameters, 'randomnessPower')
+  .min(1)
+  .max(10)
+  .step(0.001)
+  .name('Randomness Power')
+  .onFinishChange(galaxyGenerator);
 
 //====================== Camera =======================
 let width = window.innerWidth;
@@ -148,6 +182,15 @@ const tick = () => {
 
 tick();
 
+/* const radius = Math.random() * parameters.radius;
+
+      radius   center    radius
+  |--------------|---------------|
+
+  - establishing "particles" on a straight-line
+  - starting from the center and putting the particles randomly on that line
+*/
+
 /* const branchAngle =
       ((i % parameters.branches) / parameters.branches) * Math.PI * 2;
 
@@ -172,4 +215,10 @@ tick();
     if (i < 20) {
       console.log(i, branchAngle);
     }
+*/
+
+/* const spinAngle = radius * parameters.spin;
+
+  - spin depending on distance
+  - we get a bigger spin-angle as distance goes further
 */
