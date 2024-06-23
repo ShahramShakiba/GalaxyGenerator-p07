@@ -1,24 +1,24 @@
 import GUI from 'lil-gui';
 
 export const parameters = {
-  count: 100000,
-  size: 0.01,
-  radius: 5,
-  branches: 3,
-  spin: 1,
-  randomness: 0.2,
-  randomnessPower: 3,
+  count: 30000,
+  size: 0.02,
+  radius: 3.154,
+  branches: 4,
+  spin: -2.63,
+  randomness: 0.234,
+  randomnessPower: 3.29,
   insideColor: '#ff6030',
   outsideColor: '#1b3984',
 };
 
 export const debugGUI = (galaxyGenerator) => {
-  const gui = new GUI().title('Galaxy Generator');
+  const gui = new GUI({ width: 230 }).title('Galaxy Generator').close();
 
   gui
     .add(parameters, 'count')
     .min(300)
-    .max(1000000)
+    .max(100000)
     .step(150)
     .name('Count')
     .onFinishChange(galaxyGenerator);
@@ -66,7 +66,7 @@ export const debugGUI = (galaxyGenerator) => {
   gui
     .add(parameters, 'randomnessPower')
     .min(1)
-    .max(10)
+    .max(15)
     .step(0.001)
     .name('Randomness Power')
     .onFinishChange(galaxyGenerator);

@@ -1,7 +1,6 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as THREE from 'three';
 import { debugGUI, parameters } from './gui';
-import { RGBELoader } from 'three/examples/jsm/Addons.js';
 
 const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
@@ -12,8 +11,8 @@ const textureLoader = new THREE.TextureLoader();
 textureLoader.load('./textures/2k_stars.jpg', (texture) => {
   texture.mapping = THREE.EquirectangularReflectionMapping;
 
-  // Improve texture filtering
-  texture.minFilter = THREE.LinearFilter;
+  // Improves performance by minification filtering 
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
   texture.magFilter = THREE.LinearFilter;
   texture.encoding = THREE.sRGBEncoding;
 
@@ -136,15 +135,20 @@ renderer.setSize(width, height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 //==================== Resize Listener ================
-window.addEventListener('resize', () => {
-  width = window.innerWidth;
-  height = window.innerHeight;
+const onWindowResize = () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
 
   renderer.setSize(width, height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+};
+
+window.addEventListener('resize', () => {
+  clearTimeout(window.resizedFinished);
+  window.resizedFinished = setTimeout(onWindowResize, 250); // Explained ↓
 });
 
 //==================== Resize Listener ================
@@ -159,11 +163,23 @@ audioLoader.load('./music/Hope to see you again.mp3', (buffer) => {
   sound.setLoop(true);
   sound.setVolume(0.5);
 
-  document.addEventListener('click', () => {
+  const playSound = () => {
     if (!sound.isPlaying) {
       sound.play();
     }
-  });
+  };
+
+  // Ensure the AudioContext is resumed on user interaction
+  const handleAudioContext = () => {
+    if (THREE.AudioContext.getContext().state === 'suspended') {
+      THREE.AudioContext.getContext().resume().then(playSound);
+    } else {
+      playSound();
+    }
+  };
+
+  document.addEventListener('click', handleAudioContext);
+  document.addEventListener('touchstart', handleAudioContext);
 });
 
 //==================== Animate ========================
@@ -225,4 +241,10 @@ tick();
 
   - spin depending on distance
   - we get a bigger spin-angle as distance goes further
+*/
+
+/*  
+* clearTimeout(window.resizedFinished)
+
+-  This ensures that if the window is being resized rapidly, only the final resize event after 250ms of no resizing will trigger the onWindowResize function.
 */
