@@ -11,16 +11,17 @@ const parameters = {};
 parameters.count = 1000;
 parameters.size = 0.02;
 
-const generateGalaxy = () => {
+const galaxyGenerator = () => {
   //====================== Geometry
   const galaxyGeometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(parameters.count, 3);
+  const positions = new Float32Array(parameters.count * 3);
 
   for (let i = 0; i < parameters.count; i++) {
     const i3 = i * 3;
-    positions[i3] = (Math.random() - 0.5) * 10;
-    positions[i3 + 1] = (Math.random() - 0.5) * 10;
-    positions[i3 + 2] = (Math.random() - 0.5) * 10;
+
+    positions[i3] = Math.random() - 0.5; // X
+    positions[i3 + 1] = Math.random() - 0.5; // Y
+    positions[i3 + 2] = Math.random() - 0.5; // Z
   }
 
   galaxyGeometry.setAttribute(
@@ -31,7 +32,7 @@ const generateGalaxy = () => {
   //====================== Material
   const galaxyMaterial = new THREE.PointsMaterial({
     size: parameters.size,
-    sizeAttenuation: true,
+    sizeAttenuation: true, // should be scaled by their distance from the camera
     depthWrite: false,
     blending: THREE.AdditiveBlending,
   });
@@ -41,7 +42,22 @@ const generateGalaxy = () => {
   scene.add(galaxy);
 };
 
-generateGalaxy();
+galaxyGenerator();
+
+gui
+  .add(parameters, 'count')
+  .min(100)
+  .max(1000000)
+  .step(50)
+  .name('Count')
+  .onFinishChange(galaxyGenerator);
+gui
+  .add(parameters, 'size')
+  .min(0.001)
+  .max(0.1)
+  .step(0.001)
+  .name('Size')
+  .onFinishChange(galaxyGenerator);
 
 //====================== Camera =======================
 let width = window.innerWidth;
