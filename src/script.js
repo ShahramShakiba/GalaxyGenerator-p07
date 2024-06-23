@@ -1,9 +1,25 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as THREE from 'three';
 import { debugGUI, parameters } from './gui';
+import { RGBELoader } from 'three/examples/jsm/Addons.js';
 
 const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
+
+//====================== Texture ======================
+const textureLoader = new THREE.TextureLoader();
+textureLoader.load('./textures/2k_stars.jpg', (texture) => {
+  texture.mapping = THREE.EquirectangularReflectionMapping;
+
+   // Improve texture filtering
+   texture.minFilter = THREE.LinearFilter;
+   texture.magFilter = THREE.LinearFilter;
+   texture.encoding = THREE.sRGBEncoding;
+  
+  // Set the scene's environment and background
+  scene.environment = texture;
+  scene.background = texture;
+});
 
 //====================== Galaxy =======================
 let galaxyGeometry = null;
@@ -131,6 +147,10 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
+
+  if (galaxy) {
+    galaxy.rotation.y = elapsedTime * 0.04;
+  }
 
   controls.update();
   renderer.render(scene, camera);
