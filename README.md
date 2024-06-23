@@ -36,7 +36,7 @@ _I'll harness the power of lil-gui to give users the ultimate control. They’ll
 
 > _Which Concepts Have I Covered_: <br/>
 
-01. _<h4>...</h4>_
+01. _<h4>Create 1000 Particles using BufferGeometry</h4>_
 02. _<h4>...</h4>_
 03. _<h4>...</h4>_
 04. _<h4>...</h4>_
