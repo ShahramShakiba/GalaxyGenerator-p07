@@ -8,12 +8,23 @@ const gui = new GUI().title('Galaxy Generator');
 
 //====================== Galaxy =======================
 const parameters = {};
-parameters.count = 1000;
-parameters.size = 0.02;
+parameters.count = 100000;
+parameters.size = 0.01;
+
+let galaxyGeometry = null;
+let galaxyMaterial = null;
+let galaxy = null;
 
 const galaxyGenerator = () => {
+  //=== Disposing old galaxy
+  if (galaxy !== null) {
+    galaxyGeometry.dispose();
+    galaxyMaterial.dispose();
+    scene.remove(galaxy);
+  }
+
   //====================== Geometry
-  const galaxyGeometry = new THREE.BufferGeometry();
+  galaxyGeometry = new THREE.BufferGeometry();
   const positions = new Float32Array(parameters.count * 3);
 
   for (let i = 0; i < parameters.count; i++) {
@@ -30,7 +41,7 @@ const galaxyGenerator = () => {
   );
 
   //====================== Material
-  const galaxyMaterial = new THREE.PointsMaterial({
+  galaxyMaterial = new THREE.PointsMaterial({
     size: parameters.size,
     sizeAttenuation: true, // should be scaled by their distance from the camera
     depthWrite: false,
@@ -38,7 +49,7 @@ const galaxyGenerator = () => {
   });
 
   //====================== Points
-  const galaxy = new THREE.Points(galaxyGeometry, galaxyMaterial);
+  galaxy = new THREE.Points(galaxyGeometry, galaxyMaterial);
   scene.add(galaxy);
 };
 
