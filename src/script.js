@@ -237,9 +237,3 @@ tick();
   - spin depending on distance
   - we get a bigger spin-angle as distance goes further
 */
-
-/*  
-* clearTimeout(window.resizedFinished)
-
--  This ensures that if the window is being resized rapidly, only the final resize event after 250ms of no resizing will trigger the onWindowResize function.
-*/
