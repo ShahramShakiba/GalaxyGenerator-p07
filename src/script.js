@@ -45,7 +45,7 @@ const galaxyGenerator = () => {
   const colorOutside = new THREE.Color(parameters.outsideColor);
 
   for (let i = 0; i < parameters.count; i++) {
-    const i3 = i * 3;
+    const i3 = i * 3; // Each "i" will be 1-vertex[x, y, z]
     const radius = Math.random() * parameters.radius; // Explained ↓
     const spinAngle = radius * parameters.spin; // Explained ↓
     const branchAngle =
@@ -76,7 +76,7 @@ const galaxyGenerator = () => {
 
     // To avoid manipulating the base color
     const mixedColor = colorInside.clone();
-    mixedColor.lerp(colorOutside, radius / parameters.radius);
+    mixedColor.lerp(colorOutside, radius / parameters.radius); // Explained ↓
 
     colors[i3] = mixedColor.r;
     colors[i3 + 1] = mixedColor.g;
@@ -98,7 +98,7 @@ const galaxyGenerator = () => {
     sizeAttenuation: true, // should be scaled by their distance from the camera
     depthWrite: false,
     blending: THREE.AdditiveBlending,
-    vertexColors: true,
+    vertexColors: true, // Add Color to each vertex
   });
 
   //====================== Points
@@ -222,13 +222,16 @@ tick();
 
 - so it doesn't reaches to 1 because we don't want to have 2 branches in one place --- if it reaches 1, imagine it like this, the first branches is on 0, the second branches will be on its opposite position(180deg), then the third branches will reaches 0 or 360deg again --- so we will have 2 branches on 1 place
 
-
-- in the end, to have a full circle, I multiply PI by 2
+- to have a full circle, I multiply PI by 2
 
   - see how it works
     if (i < 20) {
       console.log(i, branchAngle);
     }
+
+- in the end, I put my value into Math.cos() for "X" axis
+- I put my value into Math.sin() for "Z" axis
+- to have my branches on a full circle pattern
 */
 
 /* 
@@ -236,4 +239,43 @@ tick();
 
   - spin depending on distance
   - we get a bigger spin-angle as distance goes further
+*/
+
+/*
+* const randomX = (Math.random() - 0.5) * parameters.randomness * radius
+               get values from -0.5 to +0.5
+- We need randomness. 
+- But what we truly need is spread stars on the "outside" and more condensed star on the "inside".
+
+? It's working but it's not very convincing !!!
+
+- we can use Math.pow(x, y) to crush the value. 
+- x = Math.random()
+- y = as we set a higher value, we get less value at the end of the galaxy
+
+- The more power you apply, the closest to 0 it will get --- get more values in the center and less values at the outer part of the galaxy
+
+- The problem is that you can't use a negative value with Math.pow(). 
+
+- What we will do is calculate the power then multiply it by "-1" randomly.
+
+*    const randomX =
+*       Math.pow(Math.random(), parameters.randomnessPow) *
+*       (Math.random() < 0.5 ? 1 : -1) *
+*       parameters.randomness *
+*       radius;
+
+  - we need to do this for Y and Z, as well
+*/
+
+/* 
+* mixedColor.lerp(colorOutside, radius / parameters.radius);
+
+- The first parameter of lerp(...) is the other color, 
+- and the second parameter is a value between 0 and 1. 
+
+- If it's 0, the color will keep its base value, 
+- and if it's 1 the result color will be the one provided. 
+
+- We can use the radius divided by the radius parameter:
 */

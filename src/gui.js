@@ -1,13 +1,13 @@
 import GUI from 'lil-gui';
 
 export const parameters = {
-  count: 30000,
+  count: 50000,
   size: 0.02,
-  radius: 3.154,
-  branches: 4,
-  spin: -2.63,
-  randomness: 0.234,
-  randomnessPower: 3.29,
+  radius: 5,
+  branches: 3,
+  spin: 1,
+  randomness: 0.221,
+  randomnessPower: 3.12,
   insideColor: '#ff6030',
   outsideColor: '#1b3984',
 };
